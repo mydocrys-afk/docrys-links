@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b0b0e">
+  <meta name="description" content="DOCRYS — Personal Link Hub. Semua link resmi dalam satu tempat.">
+  <title>DOCRYS — Personal Link Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    :root { color-scheme: dark; --bg:#0b0b0e; --panel:#141419; --line:rgba(255,255,255,.10); --muted:#a5a3ad; --text:#f5f2f7; --accent:#c9a878; }
+    * { box-sizing:border-box; }
+    body {
+      margin:0; min-height:100vh; color:var(--text); font-family:"DM Sans",sans-serif;
+      background: radial-gradient(ellipse at 50% -15%, rgba(201,168,120,.16), transparent 42%),
+                  radial-gradient(ellipse at 100% 80%, rgba(112,91,130,.10), transparent 35%), var(--bg);
+      display:flex; justify-content:center; padding:48px 18px 28px;
+    }
+    .wrap { width:min(100%, 510px); }
+    .topline { height:1px; background:linear-gradient(90deg,transparent,var(--accent),transparent); opacity:.7; margin-bottom:34px; }
+    header { text-align:center; margin-bottom:30px; }
+    .avatar {
+      width:88px; height:88px; margin:0 auto 17px; border-radius:50%; display:grid; place-items:center;
+      border:1px solid rgba(201,168,120,.65); background:linear-gradient(145deg,#27232a,#111115);
+      box-shadow:0 0 0 7px rgba(201,168,120,.045), 0 12px 45px rgba(0,0,0,.45);
+      animation:avatarFloat 4s ease-in-out infinite;
+      font-family:"Playfair Display",serif; font-size:39px; color:var(--accent);
+    }
+    @keyframes avatarFloat { 0%,100% { transform:translateY(0); box-shadow:0 0 0 7px rgba(201,168,120,.045),0 12px 45px rgba(0,0,0,.45); } 50% { transform:translateY(-5px); box-shadow:0 0 0 10px rgba(201,168,120,.035),0 16px 48px rgba(0,0,0,.5); } }
+    .eyebrow { color:var(--accent); font-size:10px; letter-spacing:.32em; text-transform:uppercase; margin:0 0 8px; }
+    h1 { font:700 clamp(34px,8vw,43px)/1.05 "Playfair Display",serif; letter-spacing:.12em; margin:0; }
+    .subtitle { margin:12px 0 0; color:var(--muted); font-size:13px; letter-spacing:.04em; }
+    .intro { max-width:350px; margin:15px auto 0; color:#c7c3cc; font-size:13px; line-height:1.7; }
+    .type-line { min-height:20px; margin:11px 0 0; color:var(--accent); font-size:12px; letter-spacing:.09em; }
+    .type-caret { display:inline-block; margin-left:2px; animation:caretBlink .8s steps(2,start) infinite; }
+    @keyframes caretBlink { to { visibility:hidden; } }
+    .section-label { display:flex; align-items:center; gap:12px; margin:29px 2px 13px; color:#aaa5af; font-size:10px; letter-spacing:.2em; text-transform:uppercase; }
+    .section-label:after { content:""; height:1px; flex:1; background:var(--line); }
+    .links { display:grid; gap:11px; perspective:900px; }
+    .link {
+      position:relative; overflow:hidden; isolation:isolate;
+      display:flex; align-items:center; gap:14px; min-height:66px; padding:13px 16px;
+      opacity:0; transform:translateY(18px); animation:linkEnter .65s cubic-bezier(.2,.75,.25,1) forwards;
+      border:1px solid var(--line); border-radius:13px; background:linear-gradient(115deg,rgba(255,255,255,.055),rgba(255,255,255,.018));
+      color:var(--text); text-decoration:none; transition:transform .2s ease,border-color .2s ease,background .2s ease;
+    }
+    .link:nth-child(1) { animation-delay:.12s; } .link:nth-child(2) { animation-delay:.20s; }
+    .link:nth-child(3) { animation-delay:.28s; } .link:nth-child(4) { animation-delay:.36s; }
+    .link:nth-child(5) { animation-delay:.44s; } .link:nth-child(6) { animation-delay:.52s; }
+    @keyframes linkEnter { to { opacity:1; transform:translateY(0); } }
+    .link:before { content:""; position:absolute; z-index:-1; inset:0; transform:translateX(-115%); background:linear-gradient(105deg,transparent 25%,rgba(201,168,120,.13) 50%,transparent 75%); transition:transform .65s ease; }
+    .link:hover { transform:translateY(-4px) scale(1.012); border-color:rgba(201,168,120,.65); background:rgba(201,168,120,.075); box-shadow:0 12px 28px rgba(0,0,0,.22),0 0 22px rgba(201,168,120,.07); }
+    .link:hover:before { transform:translateX(115%); }
+    .link:active { transform:translateY(-1px) scale(.995); }
+    .link:hover .ico { transform:rotate(-6deg) scale(1.08); background:rgba(201,168,120,.18); }
+    .ico { transition:transform .25s ease,background .25s ease; }
+    .link:hover .arrow { color:var(--accent); transform:translate(3px,-2px); }
+    .arrow { transition:transform .25s ease,color .25s ease; }
+    .ico { width:38px; height:38px; flex:0 0 38px; display:grid; place-items:center; border-radius:10px; color:var(--accent); background:rgba(201,168,120,.10); }
+    .ico svg { width:19px; height:19px; fill:none; stroke:currentColor; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round; }
+    .link-copy { min-width:0; flex:1; }
+    .link-title { display:block; font-size:14px; font-weight:600; }
+    .link-desc { display:block; margin-top:4px; color:var(--muted); font-size:11px; }
+    .arrow { color:#89838d; font-size:18px; padding-left:5px; }
+    .note { margin:25px 0 0; padding:15px 16px; border:1px solid var(--line); border-radius:12px; color:var(--muted); font-size:11px; line-height:1.65; text-align:center; }
+    footer { margin-top:25px; text-align:center; color:#77727d; font-size:10px; letter-spacing:.13em; }
+    footer span { color:var(--accent); }
+    @media (prefers-reduced-motion:reduce) {
+      *,*:before,*:after { animation:none!important; transition:none!important; }
+      .link { opacity:1; transform:none; }
+      .type-caret { visibility:hidden; }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <div class="topline"></div>
+    <header>
+      <div class="avatar" aria-label="Inisial D">D</div>
+      <p class="eyebrow">Personal Link Hub</p>
+      <h1>DOCRYS</h1>
+      <p class="subtitle">GAMING · CONTENT CREATOR · STREAMER</p>
+      <p class="type-line"><span id="typed-text"></span><span class="type-caret" aria-hidden="true">|</span></p>
+      <p class="intro">Welcome to my space. Temukan semua akun, komunitas, dan aktivitas saya melalui satu halaman.</p>
+    </header>
+
+    <div class="section-label">Connect with me</div>
+    <nav class="links" aria-label="Link pribadi">
+      <!-- GANTI href="#" dengan URL akun kamu. Hapus link yang belum digunakan. -->
+      <a class="link" href="#" target="_blank" rel="noopener noreferrer">
+        <span class="ico"><svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></span>
+        <span class="link-copy"><span class="link-title">TikTok</span><span class="link-desc">Live stream & short videos</span></span><span class="arrow">↗</span>
+      </a>
+      <a class="link" href="#" target="_blank" rel="noopener noreferrer">
+        <span class="ico"><svg viewBox="0 0 24 24"><path d="M22 8.2a2.8 2.8 0 0 0-2-2C18.2 5.7 12 5.7 12 5.7s-6.2 0-8 .5a2.8 2.8 0 0 0-2 2A29 29 0 0 0 1.5 12 29 29 0 0 0 2 15.8a2.8 2.8 0 0 0 2 2c1.8.5 8 .5 8 .5s6.2 0 8-.5a2.8 2.8 0 0 0 2-2 29 29 0 0 0 .5-3.8 29 29 0 0 0-.5-3.8Z"/><path d="m10 9 5 3-5 3z"/></svg></span>
+        <span class="link-copy"><span class="link-title">YouTube</span><span class="link-desc">Videos, highlights & stream content</span></span><span class="arrow">↗</span>
+      </a>
+      <a class="link" href="#" target="_blank" rel="noopener noreferrer">
+        <span class="ico"><svg viewBox="0 0 24 24"><path d="M8 19c-4 1.2-4-2-5-2m10 4v-3.1a2.7 2.7 0 0 0-.8-2.1c2.7-.3 5.5-1.3 5.5-6A4.7 4.7 0 0 0 16.5 7a4.3 4.3 0 0 0-.1-3S15.4 3.7 13 5.3a13 13 0 0 0-6 0C4.6 3.7 3.6 4 3.6 4A4.3 4.3 0 0 0 3.5 7 4.7 4.7 0 0 0 2.3 10.8c0 4.7 2.8 5.7 5.5 6A2.7 2.7 0 0 0 7 19.1V22"/></svg></span>
+        <span class="link-copy"><span class="link-title">Discord Community</span><span class="link-desc">Join the community</span></span><span class="arrow">↗</span>
+      </a>
+      <a class="link" href="#" target="_blank" rel="noopener noreferrer">
+        <span class="ico"><svg viewBox="0 0 24 24"><path d="M6 7h12l2 13H4L6 7Z"/><path d="M9 9V6a3 3 0 0 1 6 0v3M8 13h.01M16 13h.01"/></svg></span>
+        <span class="link-copy"><span class="link-title">Roblox</span><span class="link-desc">My Roblox profile</span></span><span class="arrow">↗</span>
+      </a>
+      <a class="link" href="#" target="_blank" rel="noopener noreferrer">
+        <span class="ico"><svg viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1.1L12 21l7.8-7.5 1.1-1.1a5.5 5.5 0 0 0-.1-7.8Z"/></svg></span>
+        <span class="link-copy"><span class="link-title">Support My Stream</span><span class="link-desc">Support & appreciate the stream</span></span><span class="arrow">↗</span>
+      </a>
+      <a class="link" href="#" target="_blank" rel="noopener noreferrer">
+        <span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/></svg></span>
+        <span class="link-copy"><span class="link-title">Instagram</span><span class="link-desc">Photos & daily moments</span></span><span class="arrow">↗</span>
+      </a>
+    </nav>
+
+    <div class="note">Satu halaman untuk semua perjalanan digital saya.<br>Terima kasih sudah mampir dan mendukung.</div>
+    <footer>© <span id="year">2026</span> DOCRYS · MADE WITH PURPOSE</footer>
+  </main>
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Typewriter intro animation. Edit these phrases as you like.
+    const phrases = ["A place for my digital journey.", "Gaming is more than a game.", "Create. Play. Connect."];
+    const typed = document.getElementById("typed-text");
+    let phraseIndex = 0, charIndex = 0, deleting = false;
+    function typeLoop() {
+      const phrase = phrases[phraseIndex];
+      typed.textContent = phrase.slice(0, charIndex);
+      if (!deleting && charIndex < phrase.length) {
+        charIndex++;
+        setTimeout(typeLoop, 72);
+      } else if (!deleting) {
+        deleting = true;
+        setTimeout(typeLoop, 1450);
+      } else if (charIndex > 0) {
+        charIndex--;
+        setTimeout(typeLoop, 34);
+      } else {
+        deleting = false;
+        phraseIndex = (phraseIndex + 1) % phrases.length;
+        setTimeout(typeLoop, 300);
+      }
+    }
+    typeLoop();
+  </script>
+</body>
+</html>
